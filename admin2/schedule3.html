@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css3/animations3.css">  
+    <link rel="stylesheet" href="../css3/main3.css">  
+    <link rel="stylesheet" href="../css3/admin3.css">
+    <link rel="shortcut icon" type="image/png" href="../img/sos2.png">
+        
+    <title>SOS oxygène plus</title>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+        google.charts.load('current', {'packages':['corechart']});
+        google.charts.setOnLoadCallback(drawChart);
+
+        let data;
+        let chart;
+        let options = {
+            width: 600,
+            height: 400,
+            legend: { position: 'top', maxLines: 3 },
+            bar: { groupWidth: '75%' },
+            isStacked: true,
+        };
+        
+        // Function to save data to local storage
+        function saveToLocalStorage() {
+            localStorage.setItem('chartData', JSON.stringify(data.toJSON()));
+        }
+
+        // Function to load data from local storage
+        function loadFromLocalStorage() {
+            let savedData = localStorage.getItem('chartData');
+            if (savedData) {
+                data = new google.visualization.DataTable(JSON.parse(savedData));
+            }
+        }
+
+        function drawChart() {
+            loadFromLocalStorage();
+            if (!data) {
+                data = google.visualization.arrayToDataTable([
+                    ['Genre', 'Disponible', 'Non Disponible', { role: 'annotation' }],
+                    ['Concentrateur d\'oxygène', 10, 10, ''],
+                    ['Cpap fixe et Auto Piloté', 10, 10, ''],
+                    ['Bpap ', 20, 10, ''],
+                    ['Masques', 10, 10, '']
+                ]);
+            }
+
+            chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
+            chart.draw(data, options);
+        }
+
+        function updateChart(columnIndex, delta) {
+            let disponible = data.getValue(columnIndex, 1);
+            let nonDisponible = data.getValue(columnIndex, 2);
+            data.setValue(columnIndex, 1, disponible + delta);
+            data.setValue(columnIndex, 2, nonDisponible - delta);
+            chart.draw(data, options);
+            saveToLocalStorage(); // Save updated data to local storage
+        }
+
+        // Function to display the popup
+        function displayPopup() {
+            document.getElementById('popup1').style.display = 'block';
+        }
+
+        // Function to hide the popup
+        function hidePopup() {
+            document.getElementById('popup1').style.display = 'none';
+        }
+    </script>
+    <style>
+        
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: rgba(0,0,0,0.5);
+            z-index: 999;
+        }
+
+        .popup {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.5);
+        }
+        .favicon {
+  width: 32px; /* Set the width */
+  height: auto; /* Maintain aspect ratio */
+}
+        .close {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 20px;
+            text-decoration: none;
+            color: black;
+        }
+
+        .content {
+            text-align: center;
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 10px;
+        }
+
+        .button {
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        .button.minus {
+            background-color: #f44336;
+        }
+        /* Add this to your CSS file or inside a <style> tag in your HTML */
+
+/* General styles for mobile devices */
+@media (max-width: 768px) {
+    /* Adjust container width and padding */
+    .container {
+        width: 100%;
+        padding: 10px;
+    }
+
+    /* Stack the menu vertically */
+    .menu {
+        width: 100%;
+    }
+    .menu-container {
+        display: block;
+        width: 100%;
+    }
+    .menu-btn {
+        width: 100%;
+        display: block;
+        padding: 10px 0;
+    }
+
+    /* Adjust dashboard body margin */
+    .dash-body {
+        margin-top: 0;
+        padding: 10px;
+    }
+
+    /* Center and resize images */
+    img {
+        width: 100%;
+        height: auto;
+    }
+
+    /* Adjust table styles */
+    .dashbord-tables, .sub-table {
+        width: 100%;
+        overflow-x: auto;
+    }
+    
+    /* Adjust text alignment and size */
+    .menu-text, .heading-sub12 {
+        text-align: center;
+        font-size: 16px;
+    }
+
+    /* Make buttons responsive */
+    .btn-primary, .login-btn {
+        width: 100%;
+        padding: 10px;
+    }
+}
+
+        .popup{
+            animation: transitionIn-Y-bottom 0.5s;
+        }
+        .sub-table{
+            animation: transitionIn-Y-bottom 0.5s;
+        }
+</style>
+</head>
+<body>
+ 
+
+
+    <div class="container">
+        <div class="menu">
+            <table class="menu-container" border="0">
+                <tr>
+                    <td style="padding:10px" colspan="2">
+                        <table border="0" class="profile-container">
+                            <tr>
+                                <td width="30%" style="padding-left:20px" >
+                                    <img src="../img/sos.png" alt="" width="120%" style="border-radius:50%">
+                                </td>
+                                <td style="padding:0px;margin:0px;">
+                                    <p class="profile-title">Administrator</p>
+                                    <p class="profile-subtitle">admin@SOSOX.com</p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">
+                                <a  ><input type="button" value="Déconnexion" class="logout-btn btn-primary-soft btn"></a>
+                                </td>
+                            </tr>
+                    </table>
+                    </td>
+                </tr>
+                <tr class="menu-row" >
+                    <td class="menu-btn menu-icon-dashbord" >
+                        <a href="index3.html" class="non-style-link-menu"><div><p class="menu-text">tableau de bord</p></a></div></a>
+                    </td>
+                </tr>
+                <tr class="menu-row">
+                    <td class="menu-btn menu-icon-doctor ">
+                        <a  class="non-style-link-menu "><div><p class="menu-text">Tounsi slim</p></a></div>
+                    </td>
+                </tr>
+                <tr class="menu-row" >
+                    <td class="menu-btn menu-icon-schedule menu-active menu-icon-schedule-active">
+                        <a href="schedule3.html" class="non-style-link-menu-active"><div><p class="menu-text">RDV</p></div></a>
+                    </td>
+                </tr>
+                <tr class="menu-row">
+                  
+                </tr>
+                <tr class="menu-row" >
+                    <td class="menu-btn menu-icon-patient">
+                        <a href="patient3.html" class="non-style-link-menu  non-style-link-menu"><div><p class="menu-text">Patients</p></a></div>
+                    </td>
+                </tr>
+
+            </table>
+        </div>
+        <div class="dash-body">
+            <table border="0" width="100%" style=" border-spacing: 0;margin:0;padding:0;margin-top:25px; ">
+                <tr >
+                    <td width="13%">
+
+                    <a href="index3.html" ><button  class="login-btn btn-primary-soft btn btn-icon-back"  style="padding-top:11px;padding-bottom:11px;margin-left:20px;width:125px"><font class="tn-in-text">retour</font></button></a>
+                        
+                    </td>
+                    <td>
+                        
+                       
+                        
+                    </td>
+                    <td width="15%">
+                       
+                        <p class="heading-sub12" style="padding: 0;margin: 0;">
+                     
+                        </p>
+                    </td>
+                    
+
+
+                </tr>
+               
+                <tr> <div id="chart_div"></div>
+                    <div class="buttons">
+                        <button class="button" onclick="updateChart(0, 1)">+ Concentrateur d'oxygène</button>
+                        <button class="button" onclick="updateChart(1, 1)">+ Cpap fixe et Auto Piloté</button>
+                        <button class="button" onclick="updateChart(2, 1)">+ Bpap ST</button>
+                        <button class="button" onclick="updateChart(3, 1)">+ masques</button>
+                    </div>
+                    <div class="buttons">
+                        <button class="button minus" onclick="updateChart(0, -1)">- Concentrateur d'oxygène</button>
+                        <button class="button minus" onclick="updateChart(1, -1)">- Cpap fixe et Auto Piloté</button>
+                        <button class="button minus" onclick="updateChart(2, -1)">- Bpap ST</button>
+                        <button class="button minus" onclick="updateChart(3, -1)">- masques</button>
+                    </div>
+                
+                </div></tr>
+               
+                                    
+                             
+ 
+                            </tbody>
+
+                        </table>
+                        </div>
+                        </center>
+                   </td> 
+                </tr>
+                       
+                        
+                        
+            </table>
+        </div>
+    </div>
+    
+    <div id="popup1" class="overlay">
+        <div class="popup">
+            <a class="close" href="javascript:void(0);" onclick="hidePopup()">&times;</a>
+            <div class="content">
+                <p style="padding: 0;margin: 0;text-align: left;font-size: 25px;font-weight: 500;">View Details.</p><br><br>
+                <div style="display: flex;justify-content: center;">
+                    <table width="80%" class="sub-table scrolldown add-doc-form-container" border="0">
+                        <tr>
+                            <td colspan="2"><input type="button" value="OK" class="login-btn btn-primary-soft btn" onclick="hidePopup()"></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+  
+
+
+</body>
+</html>

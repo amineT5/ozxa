@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" href="../css3/animations3.css">  
+    <link rel="stylesheet" href="../css3/main3.css">  
+    <link rel="stylesheet" href="../css3/admin3.css">
+    <link rel="shortcut icon" type="image/png" href="../img/sos2.png">
+    <title>SOS oxygène plus</title>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+      google.charts.load('current', {'packages':['corechart']});
+
+      google.charts.setOnLoadCallback(drawChart);
+
+      function drawChart() {
+        // Extracting data from the table
+        const allPatientData = JSON.parse(localStorage.getItem('allPatientData')) || [];
+        const monthsData = {};
+        allPatientData.forEach(patientData => {
+          const month = new Date(patientData.dateConsultation).getMonth(); // Extracting month from the date
+          monthsData[month] = (monthsData[month] || 0) + 1; // Counting occurrences of each month
+        });
+
+        // Building data array for Google Chart
+        var data = [['Month', 'Nombre Patients', { role: 'style' }]];
+        for (let i = 0; i < 12; i++) {
+          const monthName = new Date(0, i).toLocaleString('en-US', { month: 'long' });
+          const color = 'color: #76A7FA'; // You can customize the color
+          data.push([monthName, monthsData[i] || 0, color]);
+        }
+
+        // Setting chart options
+        var options = {
+          title: 'nbre patients par mois',
+          hAxis: {title: 'Mois', titleTextStyle: {color: '#333'}},
+          vAxis: {minValue: 0},
+          legend: 'none'
+        };
+
+        // Drawing the chart
+        var chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
+        chart.draw(google.visualization.arrayToDataTable(data), options);
+      }
+    </script>
+
+    <style>
+  
+
+      /* Media query for mobile devices */
+      @media screen and (max-width: 600px) {
+        #chart_div {
+          height: auto; /* Allow height to adjust based on content */
+        }
+      }
+
+        .dashbord-tables{
+            animation: transitionIn-Y-over 0.5s;
+        }
+        .filter-container{
+            animation: transitionIn-Y-bottom  0.5s;
+        }
+        .sub-table{
+            animation: transitionIn-Y-bottom 0.5s;
+        }
+
+        /* Add this to your CSS file or inside a <style> tag in your HTML */
+
+/* General styles for mobile devices */
+@media (max-width: 768px) {
+    /* Adjust container width and padding */
+    .container {
+        width: 100%;
+        padding: 10px;
+    }
+    .favicon {
+  width: 32px; /* Set the width */
+  height: auto; /* Maintain aspect ratio */
+}
+    /* Stack the menu vertically */
+    .menu {
+        width: 100%;
+    }
+    .menu-container {
+        display: block;
+        width: 100%;
+    }
+    .menu-btn {
+        width: 100%;
+        display: block;
+        padding: 10px 0;
+    }
+
+    /* Adjust dashboard body margin */
+    .dash-body {
+        margin-top: 0;
+        padding: 10px;
+    }
+
+    /* Center and resize images */
+    img {
+        width: 100%;
+        height: auto;
+    }
+
+    /* Adjust table styles */
+    .dashbord-tables, .sub-table {
+        width: 100%;
+        overflow-x: auto;
+    }
+    
+    /* Adjust text alignment and size */
+    .menu-text, .heading-sub12 {
+        text-align: center;
+        font-size: 16px;
+    }
+
+    /* Make buttons responsive */
+    .btn-primary, .login-btn {
+        width: 100%;
+        padding: 10px;
+    }
+}
+.delete-btn {
+    background-color: #ff4444;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 3px;
+}
+
+
+    </style>
+    
+    
+</head>
+<body>
+    <div class="container">
+        <div class="menu">
+            <table class="menu-container" border="0">
+                <tr>
+                    <td style="padding:10px" colspan="2">
+                        <table border="0" class="profile-container">
+                            <tr>
+                                <td width="30%" style="padding-left:20px" >
+                                    <img src="../img/sos.png" alt="" width="130%" style="border-radius:50%">
+                                </td>
+                                <td style="padding:0px;margin:0px;">
+                                    <p class="profile-title">  Administrator</p>
+                                    <p class="profile-subtitle">   admin@SOSOX.com</p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">
+                                    <a href="#" onclick="goBack()" class="logout-btn btn-primary-soft btn">
+                                        <input type="button" value="Déconnexion" class="logout-btn btn-primary-soft btn">
+                                    </a>
+                                    
+                                </td>
+                            </tr>
+                    </table>
+                    </td>
+                </tr>
+                <tr class="menu-row" >
+                    <td class="menu-btn menu-icon-dashbord menu-active menu-icon-dashbord-active" >
+                        <a href="index3.html" class="non-style-link-menu non-style-link-menu-active"><div><p class="menu-text">Tableau de bord</p></a></div></a>
+                    </td>
+                </tr>
+                <tr class="menu-row">
+                    <td class="menu-btn menu-icon-doctor ">
+                        <a  class="non-style-link-menu "><div><p class="menu-text">Tounsi slim</p></a></div>
+                    </td>
+                </tr>
+                <tr class="menu-row" >
+                    <td class="menu-btn menu-icon-schedule">
+                        <a href="schedule3.html" class="non-style-link-menu"><div><p class="menu-text">RDV</p></div></a>
+                    </td>
+                </tr>
+                <tr class="menu-row">
+        
+                </tr>
+                <tr class="menu-row" >
+                    <td class="menu-btn menu-icon-patient">
+                        <a href="patient3.html" class="non-style-link-menu"><div><p class="menu-text">Patients</p></a></div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div class="dash-body" style="margin-top: 15px">
+            <table border="0" width="100%" style=" border-spacing: 0;margin:0;padding:0;" >
+                        
+                        <tr >
+                            
+                            <td colspan="2" class="nav-bar" >
+                                
+                                <form id="searchForm" class="header-search">
+                                    <input id="searchInput" type="search" name="search" class="input-text header-searchbar" placeholder="Cher par NOM" list="doctors">&nbsp;&nbsp;
+                                    <input type="Submit" value="Chercher" class="login-btn btn-primary-soft btn" style="padding-left: 25px;padding-right: 25px;padding-top: 10px;padding-bottom: 10px;">
+                                </form>
+
+                                <form id="patientSearchForm" class="header-search" style="display: flex; align-items: center;">
+                                    <input id="patientSearchInput" type="search" name="patientSearch" class="input-text header-searchbar" placeholder="Cher par DATE" list="doctors" style="flex: 1; margin-right: 10px; width: 200px;">
+                                    <input type="Submit" value="Chercher" class="login-btn btn-primary-soft btn" style="padding: 8px 20px;">
+                                </form>
+                                
+                                
+                                
+                                
+                            </td>
+                            <td width="15%">
+                                <p style="font-size: 14px;color: rgb(119, 119, 119);padding: 0;margin: 0;text-align: right;">
+                                    date d'aujourd'hui
+                                </p>
+                                <p class="heading-sub12" style="padding: 0;margin: 0;">
+                            
+                                </p>
+                            </td>
+                            <td width="10%">
+                                <button  class="btn-label"  style="display: flex;justify-content: center;align-items: center;"><img src="../img/calendar.svg" width="100%"></button>
+                            </td>
+        
+        
+                        </tr>
+                <tr>
+                    <td colspan="4">
+                        
+                        <center>
+                        <table class="filter-container" style="border: none;" border="0">
+                            <tr>
+                                <td colspan="4">
+                                    <p style="font-size: 20px;font-weight:600;padding-left: 12px;">Status</p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="width: 25%;">
+                                    <div  class="dashboard-items"  style="padding:20px;margin:auto;width:95%;display: flex">
+                                        <div>
+                                                <div class="h1-dashboard">
+                                                   
+                                                </div><br>
+                                                <div class="h3-dashboard">
+                                                    Directeur Slim &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                </div>
+                                        </div>
+                                                <div class="btn-icon-back dashboard-icons" style="background-image: url('../img/icons/doctors-hover.svg');"></div>
+                                    </div>
+                                </td>
+                                <td style="width: 25%;">
+                                    <div  class="dashboard-items"  style="padding:20px;margin:auto;width:95%;display: flex;">
+                                        <div>
+                                                <div class="h1-dashboard">
+                                                
+                                                </div><br>
+                                                <div class="h3-dashboard">
+                                                    Patients &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                </div>
+                                        </div>
+                                                <div class="btn-icon-back dashboard-icons" style="background-image: url('../img/icons/patients-hover.svg');"></div>
+                                    </div>
+                                </td>
+                               
+                                <td style="width: 25%;">
+                                    <div  class="dashboard-items"  style="padding:20px;margin:auto;width:95%;display: flex;padding-top:26px;padding-bottom:26px;">
+                                        <div>
+                                                <div class="h1-dashboard">
+                                                   
+                                                </div><br>
+                                                <div class="h3-dashboard" style="font-size: 15px">
+                                                     Sessions
+                                                </div>
+                                        </div>
+                                                <div class="btn-icon-back dashboard-icons" style="background-image: url('../img/icons/session-iceblue.svg');"></div>
+                                    </div>
+                                </td>
+                                
+                            </tr>
+                        </table>
+                    </center>
+                    </td>
+                </tr>
+
+
+                
+
+
+
+                <tr>
+                    <td colspan="4">
+                        <table width="100%" border="0" class="dashbord-tables">
+                            <tr>
+                                <td>
+                                    <p style="padding:10px;padding-left:48px;padding-bottom:0;font-size:23px;font-weight:700;color:var(--primarycolor);">
+                                       
+                                    </p>
+                                    <div id="chart_div" style="width: 600px; height: 500px;"></div>
+                                    <p style="padding-bottom:19px;padding-left:50px;font-size:15px;font-weight:500;color:#212529e3;line-height: 20px;">
+                                        Voici une table pour sauvegarder les informations des patients de la colonne "patient" ci-dessus    <br>
+                                        voir les résultats en temps réel dans le graphique ci-dessus.  
+                                    </p>
+
+                                </td>
+                               
+                            </tr>
+                            <tr>
+                                <td width="100%">
+                                    <center>
+                                        <div class="abc scroll" style="height: auto;">
+                                            <table width="85%" class="sub-table scrolldown" border="0">
+                                              <thead>
+                                                <tr>
+                                                  <th class="table-headin" style="font-size: 12px;">ID</th>
+                                                  <th class="table-headin">Donnees Patient</th>
+                                                  <th class="table-headin">DATE Session</th>
+                                                </tr>
+                                              </thead>
+                                              <tbody id="patient-table-body">
+                                                <!-- Dynamic content will be added here -->
+                                              </tbody>
+                                            </table>
+                                          </div>
+                                      
+                                        
+                                        
+                                        
+                                        </center>
+                                </td> 
+                                <td width="50%" style="padding: 0;">
+                                    <center>
+                                  
+                                        
+                                        </center>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <center>
+                                        <a  class="non-style-link"><button class="btn-primary btn" style="width:85%">trouver tous</button></a>
+                                    </center>
+                                </td>
+                                <td>
+                                    <center>
+                    
+                                    </center>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+
+                </tr>
+                        </table>
+                        </center>
+                        </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    
+    <script>
+         window.onload = function() {
+        function updateTable() {
+            fetch('/api/patients')
+                .then(response => response.json())
+                .then(patients => {
+                    const tableBody = document.getElementById('patient-table-body');
+                    tableBody.innerHTML = '';
+
+                    patients.forEach((patientData, index) => {
+                        const newRow = tableBody.insertRow();
+
+                        const idCell = newRow.insertCell(0);
+                        const patientDataCell = newRow.insertCell(1);
+                        const dateSessionCell = newRow.insertCell(2);
+                        const deleteCell = newRow.insertCell(3);
+
+                        idCell.textContent = patientData.patientId;
+                        patientDataCell.textContent = `Nom: ${patientData.name}, CIN: ${patientData.cin}, Telephone: ${patientData.telephone}, Addresse: ${patientData.address}, Dnais: ${patientData.dob}`;
+                        dateSessionCell.textContent = patientData.dateConsultation;
+
+                        const deleteButton = document.createElement('button');
+                        deleteButton.textContent = 'Delete';
+                        deleteButton.classList.add('delete-btn');
+
+                        deleteButton.addEventListener('click', () => {
+                            fetch(`/api/patients/${patientData.patientId}`, {
+                                method: 'DELETE'
+                            })
+                            .then(response => {
+                                if (response.ok) {
+                                    // Remove the corresponding row from the table
+                                    tableBody.deleteRow(index);
+
+                                    // Redraw the chart after changes in the table
+                                    drawChart();
+                                } else {
+                                    alert('Error deleting patient');
+                                }
+                            });
+                        });
+
+                        deleteCell.appendChild(deleteButton);
+                    });
+                })
+                .catch(error => console.error('Error fetching patients:', error));
+        }
+
+        updateTable();
+        drawChart(); // Draw the chart initially
+    };
+
+    // Function to handle form submission for search by name
+    document.getElementById('searchForm').addEventListener('submit', function(event) {
+        event.preventDefault(); // Prevent default form submission
+
+        const searchQuery = document.getElementById('searchInput').value.trim().toLowerCase();
+
+        fetch('/api/patients')
+            .then(response => response.json())
+            .then(patients => {
+                const patientRows = document.querySelectorAll('#patient-table-body tr');
+                patientRows.forEach(row => {
+                    const patientDataCellText = row.cells[1].textContent.trim().toLowerCase();
+                    if (patientDataCellText.includes(searchQuery)) {
+                        alert(row.textContent);
+                        return;
+                    }
+                });
+                alert('No matching patient found.');
+            });
+    });
+
+    // Function to handle form submission for search by date session
+    document.getElementById('patientSearchForm').addEventListener('submit', function(event) {
+        event.preventDefault(); // Prevent default form submission
+
+        const searchQuery = document.getElementById('patientSearchInput').value.trim().toLowerCase();
+
+        fetch('/api/patients')
+            .then(response => response.json())
+            .then(patients => {
+                const patientRows = document.querySelectorAll('#patient-table-body tr');
+                let matchFound = false;
+                patientRows.forEach(row => {
+                    const dateSessionCellText = row.cells[2].textContent.trim().toLowerCase();
+                    if (dateSessionCellText === searchQuery) {
+                        alert(row.textContent);
+                        matchFound = true;
+                        return;
+                    }
+                });
+                if (!matchFound) {
+                    alert('No matching patient found.');
+                }
+            });
+    });
+
+    function goBack() {
+        window.location.href = "../../index.html";
+        // Adjust the number of '../' based on the depth of the current file.
+    }
+
+      </script>
+
+    
+    
+        
+
+</body>
+</html>
